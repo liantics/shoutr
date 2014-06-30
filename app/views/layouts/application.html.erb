@@ -8,6 +8,19 @@
 </head>
 <body>
 
+<% if signed_in? %>
+	<%= button_to "Sign out", :session, method: :delete %> 
+
+
+<% else %>
+
+	<p><%= link_to "Sign up", [:new, :user] %> </p>
+
+	<p><%= link_to "Sign in", [:new, :session] %> </p>
+	
+
+<% end %>
+
 <%= yield %>
 
 </body>

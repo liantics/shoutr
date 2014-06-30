@@ -28,6 +28,9 @@ gem 'spring',        group: :development
 
 #use monban
 gem 'monban' 
+
+gem 'monban-generators'
+
 #
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
