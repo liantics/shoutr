@@ -1,6 +1,8 @@
 <%= link_to current_user.email, current_user %> 
 
-<%= link_to "following", :following %>
+<%= link_to "Who I'm following", :following %>
+<%= link_to "Who's following me", :followers %>
+
 
 <%= form_for [@shout] do |f| %> 
  

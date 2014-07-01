@@ -5,6 +5,9 @@ require "monban/constraints/signed_in"
   resources :users, only: [:new, :create, :show] do
   	resource :following_relationship, only: [:create, :destroy]
   end
+
+  resource :followers, only: [:show] #using singular resource because we're not going to use the followers' individual ids.
+
   resources :shouts, only: [:create]
 
   get "/sign_up", to: "users#new"

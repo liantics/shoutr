@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 20140630184330) do
     t.datetime "updated_at",        null: false
   end
 
+
+
   add_index "following_relationships", ["followed_users_id"], name: "index_following_relationships_on_followed_users_id", using: :btree
   add_index "following_relationships", ["follower_id", "followed_users_id"], name: "following_relationships_uniqueness", unique: true, using: :btree
   add_index "following_relationships", ["follower_id"], name: "index_following_relationships_on_follower_id", using: :btree
