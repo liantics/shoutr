@@ -10,6 +10,8 @@ require "monban/constraints/signed_in"
 
   resources :shouts, only: [:create]
 
+  resources :text_subjects, only: [:create]
+
   get "/sign_up", to: "users#new"
 
   constraints Monban::Constraints::SignedIn.new do

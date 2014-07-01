@@ -1,25 +1,28 @@
-<div>
-	<%= @user.email %>
-</div>
-
-<div>
+<div class="info_text">
 Logged in as: <%= current_user.email %>
 </div>
 
+
+<div class="info_text">
+	this is the page of <%= @user.email %>
+</div>
+
+
+
 <div>
 <% if current_user.following?(@user) %>
-	following? evaluates to <%= current_user.following?(@user)%> @user.id is <%= @user.id%> current_user.id is <%= current_user.id%>
+	<span class="info_text">following? evaluates to <%= current_user.following?(@user)%> @user.id is <%= @user.id%> current_user.id is <%= current_user.id%></p>
 
 	<%= button_to "Unfollow #{@user.email}",  [@user, :following_relationship], method: :delete %>
 <%else%>
-
-	user.following?(@user) evaluates to <%= current_user.following?(@user)%> @user.id <%= @user.id%> current_user.id <%= current_user.id%>
-	<%= button_to "Follow #{@user.email}",  [@user, :following_relationship] %>
+	<% if current_user != @user %>
+	<span class="info_text">	user.following?(@user) evaluates to <%= current_user.following?(@user)%> @user.id <%= @user.id%> current_user.id <%= current_user.id%></span>
+		<%= button_to "Follow #{@user.email}",  [@user, :following_relationship] %>
+	<% end %>
 <%end%>
 </div>
-
-<div>
 <ul>
 <%= render @shouts %>
 </ul>
-</div>
+
+

@@ -1,0 +1,52 @@
+for lunch:  Make a follow button partial and move the if to the partial.  Keep in mind: user is going to be passed into the partial, not @user, so adjust that.
+
+Never use instance variables in partials.  If you're using an instance variable, it's hard to tell which controller it's coming from and how it got set. If you use a local variable, you'll know where it came from and how it got set.
+
+Also don't set instance variables within the view.
+
+To call the _follow_button partial:
+<% render "follow_button", user: @user%>
+
+If you want to have one table for all of a type of object, but multiple categories of entities can have their own objects, you can use polymorphic association. For example: 
+
+Employees can have many pictures
+Products can have many pictures
+Pictures needs an employee id foreign key and a products foreign key
+
+You'd always have to have one foreign key be null, which could mean that if you had a problem writing to the db, which would make testing a problem. 
+
+If you have a column that's null 50% or more of the time, that's bad. You don't want to ever say, "Oh, it's Null ... on purpose."
+
+We can add to our table an id column  and a type column, both which are always going to be set. Type is a string
+
+For picture, we can add:
+imageable_id and imageable_type
+
+If the id is 1 and the type is "Employee", then active record will know the ID is for employee #1, thus this image belongs to employee 1.
+If the id is 3 and the type is "Product", then active record will know the ID is for product #3, thus this image belongs to product 3.
+The type is the same as the EXACT name of the class to which it belongs. 
+
+This is great for things like comments - you can comment on a picture, on a comment, on a user, on a post, etc. So, you could use: commentable_id and commentable_type, then have types of ""comment" "picture" "user" "post" etc
+
+In rails, all you have to do is set up the classes. For the employe and product pictures example:
+#first set up the class for Picture:
+class Picture <ActiveRecord::Base
+  # setting polymporphic: true tells active record NOT to look for an imageable model, 
+  # but instead to look for the type in the table
+  belongs_to :imageable, polymrphic: true
+end
+
+#Then set up the employee relationship. 
+class Employee < ActiveRectord::Base
+  has_many :pictures, as: :imageable
+end
+
+#Then set up the product.
+class Product < ActiveRecord::Base
+  #tells active record to look in the pictures table for the imaageable id, 
+  # and because polymorphiic is set on picture, it will grab the type, as well 
+ 
+  has_many :pictures, as: :imageable
+end
+
+

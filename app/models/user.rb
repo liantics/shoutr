@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 		class_name: "FollowingRelationship", #this MUST be a string, cannot be a symbol
 		foreign_key: :follower_id #we're telling the user model (the file we're in right now), what foreign key to look up
 
-	has_many :followed_user, 
+	has_many :followed_users, 
 		through: :followed_user_relationships
 
 
@@ -21,9 +21,12 @@ class User < ActiveRecord::Base
 		class_name: "FollowingRelationship",
 		foreign_key: :followed_user_id
 
-
 	has_many :followers,
 		through: :follower_relationships
+
+	has_many :text_subjects,
+		through: :shouts, source_type: "TextSubject", source: :subject
+	
 
 
 	def follow(followee)

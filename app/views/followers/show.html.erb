@@ -1,2 +1,9 @@
-<h2>Followers</h2>
-<%= render @followers %>
+<h2>These People Are Following Me</h2>
+<div class=info_text>Logged in as: <%= current_user.email %>
+<p>current_user.followers is <%= current_user.followers %></p>
+
+</div>
+
+<div>
+	<%= render @followers %>
+</div>
