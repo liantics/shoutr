@@ -1,5 +1,7 @@
 <%= link_to current_user.email, current_user %> 
 
+<%= link_to "following", :following %>
+
 <%= form_for [@shout] do |f| %> 
  
  <%= f.text_area :body, placeholder: "Shout it!"%>

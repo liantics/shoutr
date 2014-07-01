@@ -1,0 +1,83 @@
+We're using a symbol for the following_relationship because it's a singular resource, accessed through the user. 
+
+To create a button to create a new following relationship:
+
+<%= button_to "Follow #{@user.email}", [@user, :following_relationsip] %>
+
+polymorphic path is going to run in each part of the array (@user, then :following_relationship), then join the result together into a single path. So, the above will do:
+
+<%= button_to "Follow #{@user.email}", /user/:id/the_path_for_the_following_relationship_create_route
+
+Why create route? 
+
+Because the button does a post, which goes to the create route. 
+
+Once that's in place, we'll need a route for following_relationship. Since the route is nested under users, the resource needs to be nested under user in the routes.  resource :following_relationship, only: [:create]
+
+Then make sure we can tell who the current user is:
+
+ if the user is signed in, if signed_n?
+Signed in as:current_user.email
+
+Then make the relationships controller
+(vim: rcontroller controller_name!
+tab completion: control n, or control p to go backwards)
+
+def create
+ followed_user = User_find(params[:user_id]) # user_id instead of id, because this is a nested resource.
+ current_user.follow(followed_user)
+ redirect_to :back
+end
+
+Then need to create the follow method. Add it to the current user, so it goes into user model
+
+def follow(other_user)
+  followed_users << other_user
+end
+
+Then make followed users relationship in the user model
+has_many :followed_user_relationships
+has_many :follwed_users, through followed_user_relationships
+
+Then we need a model (uninitialized constant User::FollowedUserRelationship) we'll need the following_relationship model to handle this. Also need to generate the db table.
+
+rails g model following_relationship follower:belongs_to followed_user:belongs_to
+
+This will create both the db table and the model
+
+add uniqueness
+The name is going to be too long in the uniqueness string, so add a name explicitly with 
+name: "whatever_I_want_toName_it" at the end of the uniqueness string.
+
+We'll need to tell the system to look for the following_relationship class, so change the has_many declaration for followed_user_relationships to:
+
+has_many :followed_user_relationships, class_name: "FollowingRelationship"
+
+
+------------
+Add a "following" link
+
+in user show
+on dashboard
+link_to "following", :following
+
+undefined method add the path to routes
+
+put it in the constraints, inder the dashboard show
+resource following, only: [:show]
+
+create followings controller with show def in it
+@users = current_user.followed_users.all
+
+has_many followed_users
+has many 
+
+create a show partial in users/_user
+<%link_to user.email, user%>
+
+
+in followers/show
+<% render "user" %>
+
+
+
